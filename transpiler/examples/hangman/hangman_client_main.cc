@@ -14,6 +14,7 @@
 
 // The main method was split off from the rest of the code to allow testing.
 #include <stdlib.h>
+#include <ctime>
 
 #include <bitset>
 #include <cassert>
@@ -51,6 +52,11 @@ int main() {
   }
   int incorrect_attempts_made = 0;
 
+  // Choose a random word index (0, 1, or 2)
+  srand(time(0));
+  int word_index = rand() % 3;
+  auto enc_word_index = FheInt::Encrypt(word_index, key);
+
   std::string input;
   // Draw the initial state.
   std::string ascii_result;
@@ -81,7 +87,7 @@ int main() {
     FheInt cipher_result(params);
 
     XLS_CHECK_OK(
-        hangmanMakeMove(cipher_result.get(), ciphertext.get(), key.cloud()));
+        hangmanMakeMove(cipher_result.get(), ciphertext.get(), enc_word_index.get(), key.cloud()));
 
     int move_result = cipher_result.Decrypt(key);
     if (move_result == 0) {

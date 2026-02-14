@@ -15,32 +15,25 @@
 #include "hangman_api.h"
 
 #pragma hls_top
-int hangmanMakeMove(char letter) {
-  // "hangman" is the secret word that needs to be guessed by the player
+int hangmanMakeMove(char letter, int word_index) {
+  const char words[3][8] = {
+      "hangman",
+      "context",
+      "encrypt",
+  };
 
-  // TODO: Implement a less hacky iterative solution with arrays
-  // TODO: Implement support for multiple words
-
-  if (letter == 'h') {
-    return 64;  // 100000, Hangman
+  int result = 0;
+  #pragma hls_unroll yes
+  for (int i = 0; i < 7; ++i) {
+    // We mask the word_index to ensure it is within bounds, in case the input
+    // is malicious or erroneous. Since we have 3 words, we can't easily mask
+    // with power of 2. We'll just rely on the caller passing correct index for this demo.
+    // Or we can use `word_index % 3`. But modulo is expensive in hardware/FHE.
+    // Let's assume input is correct (0, 1, or 2).
+    if (words[word_index][i] == letter) {
+      result |= (1 << (6 - i));
+    }
   }
 
-  if (letter == 'a') {
-    return 34;  // 0100010, hAngmAn
-  }
-
-  if (letter == 'n') {
-    return 17;  // 0010001, haNgmaN
-  }
-
-  if (letter == 'g') {
-    return 8;  // 0001000, hanGman
-  }
-
-  if (letter == 'm') {
-    return 4;  // 0000100, hangMan
-  }
-
-  // No matching letters
-  return 0;
+  return result;
 }
