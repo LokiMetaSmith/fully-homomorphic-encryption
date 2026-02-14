@@ -21,4 +21,4 @@
 //
 // Expects lowercase characters.
 // Assumes that the player knows the length of the secret word.
-int hangmanMakeMove(char letter);
+int hangmanMakeMove(char letter, int word_index);

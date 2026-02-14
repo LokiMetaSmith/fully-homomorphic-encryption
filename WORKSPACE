@@ -43,8 +43,8 @@ http_archive(
 http_archive(
     name = "com_grail_bazel_toolchain",
     patches = ["@com_google_xls//dependency_support/com_grail_bazel_toolchain:google_workstation_workaround.patch"],
-    sha256 = "0246482b21a04667825c655d3b4f8f796d842817b2e11f536bbfed5673cbfd97",
-    strip_prefix = "bazel-toolchain-f2d1ba2c9d713b2aa6e7063f6d11dd3d64aa402a",
+    sha256 = "f03728e32a893abc7b41a283c8943cd10a6082687aa5079b56e9f7e43010fdcc",
+    strip_prefix = "toolchains_llvm-f2d1ba2c9d713b2aa6e7063f6d11dd3d64aa402a",
     urls = [
         "https://github.com/grailbio/bazel-toolchain/archive/f2d1ba2c9d713b2aa6e7063f6d11dd3d64aa402a.zip",
     ],
@@ -60,7 +60,7 @@ llvm_toolchain(
     name = "llvm_toolchain",
     # Try using llvm version 10.0.1 if you are getting an "Unknown LLVM
     # release" error.  This is a known issue for Ubuntu 16.04 LTS.
-    llvm_version = "10.0.0",
+    llvm_version = "10.0.1",
 )
 
 load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
